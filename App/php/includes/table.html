@@ -1,0 +1,154 @@
+<table class="table table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Fecha</th>
+                                            <th>Version</th>
+                                            <th>Usuario</th>
+                                            <th>Tamaño</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="new-folder-none" id="new-folder">
+                                             <td>
+                                                
+                                                <form class="formdata" id="formdata">
+                                                <a href="#"><i class="fa fa-fw fa-folder-o"></i></a> 
+                                                    <input class="new-folder-box" name="new-folder" type="text" onkeypress="return pulsar(event)">
+                                                    <input type="button" class="botonenviar" value="Crear" onclick="create_folder()">
+                                                    <input type="hidden" class="hidden" name="url" value="<?php echo $ruta; ?>">
+                                                </form>
+                                                <div id="exito" style="display:none; color:green;">
+                                                    La carpeta se ha creado con éxito.
+                                                </div>
+                                                <div id="fracaso" style="display:none; color:red;">
+                                                    Se ha producido un error durante el proceso de creacion de nueva carpeta.
+                                                </div>
+                                             </td>
+                                             <td></td>
+                                             <td></td>
+                                             <td></td>
+                                             <td></td>
+                                        </tr>
+                                        <?php 
+                                            if (is_dir($ruta)) {
+                                                
+                                                if ($dh = dir($ruta)) {
+                                                    
+                                                    while ($file = $dh->read()) {
+                                                        
+                                                       if ($file!="." && $file!="..") {
+
+                                                            $link = $ruta."/".$file;
+
+                                                          
+                                                                
+
+                                                                        echo '
+                                                                            <tr class="odd gradeX row-file">
+                                                                                <td><a href="home.php?repositorio='.$ruta.'/'.$file.'">';
+
+                                                                                    if (!is_dir($link)) {
+
+                                                                                        $partes_ruta = pathinfo($link);
+
+                                                                                        switch ($partes_ruta['extension']) {
+
+                                                                                                        case "jpg";
+                                                                                                        case "jpeg":
+
+                                                                                                            {$thumbs = "Img/iconos/JPEG.png"; break;}
+
+                                                                                                        case "png";
+                                                                                                        case "PNG":
+
+                                                                                                            {$thumbs = "Img/iconos/PNG.png"; break;}
+
+                                                                                                        case "gif":
+
+                                                                                                            {$thumbs = "Img/iconos/GIF.png"; break;}
+
+                                                                                                        case "jpeg";
+                                                                                                        case "bmp":
+
+                                                                                                            {$thumbs = "Img/iconos/IMG.png"; break;}
+
+                                                                                                        case "doc";
+                                                                                                        case "docx":
+
+                                                                                                            {$thumbs = "Img/iconos/DOC.png"; break;}
+
+                                                                                                        case "pdf":
+
+                                                                                                            {$thumbs = "Img/iconos/PDF.png"; break;}
+
+                                                                                                        case "xls";
+                                                                                                        case "xlsx":
+
+                                                                                                            {$thumbs = "Img/iconos/XLS.png"; break;}
+
+                                                                                                        case "mp3":
+
+                                                                                                            {$thumbs = "Img/iconos/MP3.png"; break;}
+
+                                                                                                        case "mp4":
+
+                                                                                                            {$thumbs = "Img/iconos/MP4.png"; break;}
+
+                                                                                                        default:
+                                                                                                            {$thumbs = "Img/iconos/UNKNOWN.png"; break;}
+                                                                                                            break;
+                                                                                                    }
+                                                                                        
+                                                                                        echo '
+                                                                                            
+                                                                                            <img class="thumb" src="'.$thumbs.'" alt="">
+
+
+                                                                                        ';
+
+                                                                                    }else{
+
+                                                                                            $thumbs = "Img/iconos/Folder Blank.png";
+
+                                                                                        echo '
+                                                                                            
+                                                                                            <img class="thumb" src="'.$thumbs.'" alt="">
+
+
+                                                                                        ';
+
+                                                                                    }
+
+                                                                                
+                                                                         echo '
+
+                                                                                </a> <a href="home.php?repositorio='.$ruta.'/'.$file.'">'.$file.'</a></td>
+                                                                                <td>
+                                                                                    <div class="opciones">
+                                                                                    <button class="btn btn-primary btn-delete" data="'.$ruta.'" id="" tittle="'.$ruta.'/'.$file.'" onclick="delete_folder()"><i class="fa fa-fw fa-trash"></i> Eliminar</button>';
+                                                                                    if (isset($_GET["repositorio"])) {
+                                                                                    
+                                                                                       echo '<a id="btn-move" class="btn btn-primary" href="'.$ruta.'/'.$file.'"><i class="fa fa-fw fa-exchange"></i> Mover</a>';
+                                                                                }
+                                                                        echo '  </div>
+                                                                                </td>
+                                                                                <td>Win 95+</td>
+                                                                                <td class="center">Herly Olivares</td>
+                                                                                <td class="center">X</td>
+                                                                            </tr>
+                                                                            <div id="resp-delete" style="display:none; color:green;">Se ha eliminado con exito</div>
+                                                                            <div id="resp-delete-none" style="display:none; color:red;">Error al eliminaro</div>
+                                                                        ';
+                                                               
+                                                       }
+                                                            
+                                                        
+                                                    }
+                                                    $dh->close(); 
+                                                }
+                                            }
+                                        ?>
+                                        
+                                    </tbody>
+                                </table>

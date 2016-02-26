@@ -1,0 +1,42 @@
+                <ul id="content-repo" class="nav navbar-nav side-nav">
+                    <li class="<?php echo $home ?>">
+                        <a href="home.php"><i class="fa fa-fw fa-home"></i> Home</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" ><i class="fa fa-fw fa-folder-o"></i> Repositorios <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="repo">
+
+                            <?php 
+
+                                if (is_dir($path)) {
+                                    
+                                    if ($dh = dir($path)) {
+                                        
+                                        while ($file = $dh->read()) {
+                                            
+                                           if ($file!="." && $file!="..") {
+
+                                                    if (isset($_GET['repositorio']) && $_GET['repositorio'] == $file) {
+                                                        
+                                                        $active = "active";
+                                                    }else{$active = "";}
+                                              
+                                                    echo '
+                                                    <li class="'.$active.'">
+                                                        <a href="home.php?repositorio='.$file.'"><i class="fa fa-fw fa-folder-open"></i>'.$file.'</a>
+                                                    </li>
+                                                    ';
+                                           }
+                                                
+                                            
+                                        }
+                                        $dh->close(); 
+                                    }
+                                }
+                            ?>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-image"></i> Imagenes</a>
+                    </li>
+                </ul>
