@@ -1,6 +1,7 @@
-<?php //Datos de conexión a la base de datos
-$hostname = 'localhost';
-$database = 'datos';
-$username = 'usuario';
-$password = 'contraseña';
-?>
+<?php 
+    define('DB_HOST','localhost'); 
+    define('DB_USER','root'); 
+    define('DB_PASS',''); 
+    define('DB_NAME',''); 
+    define('DB_CHARSET','utf-8'); 
+?> 
