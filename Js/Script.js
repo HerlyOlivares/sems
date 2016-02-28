@@ -1,6 +1,6 @@
-function create_folder(e){
+function create_folder(){
 
-	e.preventDefault();
+
 	
 		if($('.new-folder-box').val() == ""){
 			        alert("El campo Nombre no puede estar vacío.");
@@ -9,6 +9,7 @@ function create_folder(e){
 			    }else 	{
 								
 var dataString = $('.formdata').serialize();
+
 
         					$.ajax({
 									    
@@ -57,15 +58,15 @@ var dataString = $('.formdata').serialize();
 	
 }
 
-function delete_folder(e){
+	/*function delete_folder(){
 
-	e.preventDefault();
 	
 	
-			var url = $('.btn-delete').attr('tittle');
+			var url = $(this).attr('data');
+			alert(url);
 			
 
-							$.ajax({
+						$.ajax({
 									    
 									    type: 'POST',
 									    data:{url:url},
@@ -78,10 +79,10 @@ function delete_folder(e){
 									    },
 									    error: function(){
 									      
-									      /*	$("#formdata").fadeOut("slow");	*/	
+									     	
 											$("#resp-delete").delay(500).fadeIn("slow");
 											
-											/* tabla side lateral*/
+										
 												$("#rolling").fadeIn("slow");
 											  	$("#content-side-nav").css('opacity', 0.6);
 											  	$("#content-side-nav").load('home.php?randval='+ Math.random() + " #content-side-repo", function(){
@@ -90,7 +91,7 @@ function delete_folder(e){
 											      $("#rolling").fadeOut("slow");
 											  	});
 											  	
-											  	/**********/
+											  
 											
 											  	$("#panel").css('opacity', 0.6);
 											  	$("#panel").load('home.php'+ " #panel-body", function(){
@@ -102,34 +103,107 @@ function delete_folder(e){
 												      	$("#panel").css('opacity', 1);
 											      		
 											  	});
+											  	
+											  	location.reload();
 									    }
-							}); /* ajax */
+							});*/ /* ajax */
 						
 						
 		
-}
+/*}*/
 
 function mover(){
 
 	var archivo = $('.enl_ant').val();
 	var url_nueva = $('#selected_file').attr('title');
-	alert(archivo+'/'+url_nueva);
+	var filenew = $('.enl_ant').attr('name');
+	 alert(archivo+"--"+url_nueva+"--"+filenew)
+	
+						
+						$.ajax({
+									    
+									    type: 'POST',
+									    data:{archivo:archivo, url_nueva:url_nueva, filenew:filenew},
+									     url: '../App/php/mover.php',
+									     dataType: 'json',
+									    
+									    success: function() {
+									      	
+												$('.mnsj-move').text("Error al mover la seleccion");
+									    },
+									    error: function(){
+									      
+									     	$('.mnsj-move').text("Se ha movido a la carpeta especificada satisfactoriamente!");
+											  	
+											
+									    }
+							}); /* ajax */
 }
 
- /**************   ## Ligthbox con Arbol ##  ****************************************/
+ /**************   ## Funciones al cargar el documento ##  ****************************************/
 
               
 $(document).ready(function() {
+	
+	$('.btn-delete').click(function() {
+	    var url = $(this).attr('title');
+		
+						$.ajax({
+									    
+									    type: 'POST',
+									    data:{url:url},
+									     url: '../App/php/delete-folder.php',
+									     dataType: 'json',
+									    
+									    success: function() {
+									      	
+											$("#resp-delete-none").delay(500).fadeIn("slow");
+									    },
+									    error: function(){
+									      
+									     	
+											$("#resp-delete").delay(500).fadeIn("slow");
+											
+										
+												$("#rolling").fadeIn("slow");
+											  	$("#content-side-nav").css('opacity', 0.6);
+											  	$("#content-side-nav").load('home.php?randval='+ Math.random() + " #content-side-repo", function(){
+											      //aquí puedes meter más código si necesitas;
+											      $("#content-side-nav").css('opacity', 1);
+											      $("#rolling").fadeOut("slow");
+											  	});
+											  	
+											  
+											
+											  	$("#panel").css('opacity', 0.6);
+											  	$("#panel").load('home.php'+ " #panel-body", function(){
+											      
+												      		$("#formdata").fadeOut("slow");		
+														$("#resp-delete").delay(500).fadeOut("slow");
+														$('#new-folder').fadeOut(.000001);
+												      	
+												      	$("#panel").css('opacity', 1);
+											      		
+											  	});
+											  	
+											  	location.reload();
+									    }
+							}); /* ajax */
+	})
 
 
 		$('.btn-move').click(function() {
 
-			var enl_ant = $(this).attr('tittle');
+			var enl_ant = $(this).attr('title');
+			
+			var file =  $(this).attr('data');
+			
+			alert(file);
 			
 			var h = $(window).height() + 'px';
                  $("#black_overlay").css({"height":h,"visibility":"visible"});
 
-                 $(".cont-browse").append('<input type="hidden" class="enl_ant" name="enl_ant" value="' + enl_ant + '">');
+                 $(".cont-browse").append('<input type="hidden" class="enl_ant" name="'+file+'" value="'+ enl_ant +'">');
 
                  $(".cont-browse").css('display','block');
 
@@ -144,6 +218,7 @@ $(document).ready(function() {
 				$('.cancelar').click(function() {
 					$(".cont-browse").css('display','none');
 					$("#black_overlay").css("visibility","hidden");
+					location.reload();
 				});
              
               $(".close").click(function() {

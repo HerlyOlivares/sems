@@ -3,20 +3,12 @@ $path = "Home";
 
 if (!isset($_GET['repositorio'])) {
                                                         
-                $home = "active";
-                $folder = "";
-
+    $home = "active";
+    $ruta = $path;
                 
-                $ruta = $path;
-                
-                /*echo '<script>alert("'.$ruta.'");</script>';*/
 }else{
 
-    $home = "";
-
-    /*$folder = $_GET['repositorio'];*/
     $ruta = $_GET['repositorio'];
-     /*echo '<script>alert("'.$ruta.'");</script>';*/
 
 }
 
@@ -73,7 +65,7 @@ if (!isset($_GET['repositorio'])) {
 
                         <a>Buscar en el Equipo</a>
                         <input type="file" name="upl" multiple />
-                        <input type="hidden" name="ruta" value="'.$ruta.'">
+                        <input type="hidden" name="ruta" value="<?php echo $ruta ?>">
                     </div>
 
                     <ul>
@@ -93,6 +85,7 @@ if (!isset($_GET['repositorio'])) {
                 <button class="btn btn-success" onclick="mover()"><i class="fa fa-check"></i> Mover</button>
                 <button class="btn btn-danger cancelar"><i class="fa fa-times"></i> Cancelar</button>
             </div>
+            <h5 class="mnsj-move"></h5>
         </div>
         <!-- /. browser -->
 
@@ -402,23 +395,15 @@ if (!isset($_GET['repositorio'])) {
                                                                                         switch ($partes_ruta['extension']) {
 
                                                                                                         case "jpg";
-                                                                                                        case "jpeg":
-
-                                                                                                            {$thumbs = "Img/iconos/JPEG.png"; break;}
-
+                                                                                                        case "jpeg";
                                                                                                         case "png";
-                                                                                                        case "PNG":
-
-                                                                                                            {$thumbs = "Img/iconos/PNG.png"; break;}
-
-                                                                                                        case "gif":
-
-                                                                                                            {$thumbs = "Img/iconos/GIF.png"; break;}
-
+                                                                                                        case "PNG";
+                                                                                                        case "gif";
                                                                                                         case "jpeg";
                                                                                                         case "bmp":
+                                                                                                            
+                                                                                                            {$thumbs = $ruta.'/'.$file; break;}
 
-                                                                                                            {$thumbs = "Img/iconos/IMG.png"; break;}
 
                                                                                                         case "doc";
                                                                                                         case "docx":
@@ -480,13 +465,13 @@ if (!isset($_GET['repositorio'])) {
                                                                                       </button>
                                                                                      
                                                                                       <ul class="dropdown-menu" role="menu">
-                                                                                        <li><a data="'.$ruta.'" class="btn-delete" tittle="'.$ruta.'/'.$file.'" onclick="delete_folder()"><i class="fa fa-fw fa-trash"></i> Eliminar</a></li>';
+                                                                                        <li><a data="'.$ruta.'" class="btn-delete" title="'.$ruta.'/'.$file.'"><i class="fa fa-fw fa-trash"></i> Eliminar</a></li>';
                                                                                         if (isset($_GET["repositorio"])) {
 
                                                                                             if (is_file($ruta.'/'.$file)) {
                                                                                                     
                                                                                                     echo'  
-                                                                                                            <li><a data="'.$ruta.'" class="btn-move" tittle="'.$ruta.'/'.$file.'" onclick="move()"><i class="fa fa-fw fa-exchange"></i> Mover</a></li>
+                                                                                                            <li><a data="'.$file.'" class="btn-move" title="'.$ruta.'/'.$file.'"><i class="fa fa-fw fa-exchange"></i> Mover</a></li>
                                                                                                             <li class="divider"></li>
                                                                                                             <li><a href="#">Descargar</a></li>
 
@@ -495,7 +480,7 @@ if (!isset($_GET['repositorio'])) {
                                                                                             if(is_dir($ruta.'/'.$file)){
 
                                                                                                         echo'  
-                                                                                                            <li><a data="'.$ruta.'" class="btn-move" tittle="'.$ruta.'/'.$file.'" ><i class="fa fa-fw fa-exchange"></i> Mover</a></li>
+                                                                                                            <li><a data="'.$file.'" class="btn-move" title="'.$ruta.'/'.$file.'" ><i class="fa fa-fw fa-exchange"></i> Mover</a></li>
 
                                                                                                         ';
 
@@ -577,7 +562,7 @@ if (!isset($_GET['repositorio'])) {
     <script type="text/javascript" >
 $(document).ready( function() {
 
-    $( '#container' ).html( '<ul class="filetree start"><li class="wait">' + 'Generating Tree...' + '<li></ul>' );
+    $( '#container' ).html( '<ul class="filetree start"><li class="wait">' + 'Cargando Carpetas...' + '<li></ul>' );
     
     getfilelist( $('#container') , 'Home' );
     

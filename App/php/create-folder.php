@@ -1,5 +1,5 @@
 <?php 
-if (isset($_POST['new-folder'] && $_POST['url'])) {
+if (isset($_POST['new-folder']) && isset($_POST['url'])) {
  	
  	$id = $_POST['new-folder'];
  	$url = $_POST['url'];

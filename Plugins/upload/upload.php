@@ -1,7 +1,7 @@
 <?php
 
 // A list of permitted file extensions
-$allowed = array('png','jpeg','jpg', 'gif','zip', 'txt');
+$allowed = array('png','jpeg','jpg', 'gif','zip', 'txt', );
 if(isset($_POST['ruta'])){
 	
 	$dir = '../../'.$_POST['ruta'].'/';
